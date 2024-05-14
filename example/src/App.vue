@@ -1,14 +1,12 @@
 <script setup>
 import { ref, computed, provide } from "vue"
-import AboutView from "./views/AboutView.vue"
 import HomeView from "./views/HomeView.vue"
 import NotFoundView from "./views/NotFoundView.vue"
 import PlanView from "./views/PlanView.vue"
 
 const routes = {
   "/": HomeView,
-  "/about": AboutView,
-  "/plan": PlanView,
+  "/plan": PlanView
 }
 
 const currentPath = ref("/")

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 import { time_ago } from "../utils"
 import MainLayout from "../layouts/MainLayout.vue"
-import Plan from "@/components/Plan.vue"
+import Plan from "./components/Plan.vue"
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
 import {
   plan1_source,
@@ -33,7 +33,7 @@ import {
   plan_trigger_2_query,
 } from "../samples.ts"
 
-import idb from "../idb"
+// import idb from "../idb"
 
 const setPlanData = inject("setPlanData")
 
@@ -79,14 +79,14 @@ function submitPlan() {
   newPlan[1] = planInput.value
   newPlan[2] = queryInput.value
   newPlan[3] = new Date().toISOString()
-  savePlanData(newPlan)
+  // savePlanData(newPlan)
 
   setPlanData(...newPlan)
 }
 
-async function savePlanData(sample: Plan) {
-  await idb.savePlan(sample)
-}
+// async function savePlanData(sample: Plan) {
+//   await idb.savePlan(sample)
+// }
 
 onMounted(() => {
   const textAreas = document.getElementsByTagName("textarea")
@@ -95,13 +95,13 @@ onMounted(() => {
   })
   const noHashURL = window.location.href.replace(/#.*$/, "")
   window.history.replaceState("", document.title, noHashURL)
-  loadPlans()
+  // loadPlans()
 })
 
-async function loadPlans() {
-  const plans = await idb.getPlans()
-  savedPlans.value = plans.slice().reverse()
-}
+// async function loadPlans() {
+//   const plans = await idb.getPlans()
+//   savedPlans.value = plans.slice().reverse()
+// }
 
 function loadPlan(plan?: Plan) {
   if (!plan) {
@@ -117,14 +117,14 @@ function openPlan(plan: Plan) {
   setPlanData(plan[0], plan[1], plan[2])
 }
 
-function editPlan(plan: Plan) {
-  loadPlan(plan)
-}
+// function editPlan(plan: Plan) {
+//   loadPlan(plan)
+// }
 
-async function deletePlan(plan: Plan) {
-  await idb.deletePlan(plan)
-  loadPlans()
-}
+// async function deletePlan(plan: Plan) {
+//   await idb.deletePlan(plan)
+//   // loadPlans()
+// }
 
 function handleDrop(event: DragEvent) {
   const input = event.srcElement
@@ -259,8 +259,7 @@ function handleDrop(event: DragEvent) {
                 <div class="col">
                   <button
                     class="btn btn-sm btn-outline-secondary py-0 ms-1 float-end"
-                    title="Remove plan from list"
-                    v-on:click.prevent="deletePlan(plan)"
+                    title="Remove plan from list"                    
                   >
                     <FontAwesomeIcon :icon="faTrash"></FontAwesomeIcon>
                   </button>

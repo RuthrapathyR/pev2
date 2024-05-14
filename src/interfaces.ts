@@ -107,11 +107,14 @@ export class Node {
   [NodeProp.WORKERS_LAUNCHED]?: number;
   [NodeProp.WORKERS_PLANNED]?: number;
   [NodeProp.WORKERS_PLANNED_BY_GATHER]?: number;
-  [NodeProp.WORKERS_PLANNED_BY_GATHER]?: number;
   [NodeProp.EXCLUSIVE_IO_READ_TIME]: number;
   [NodeProp.EXCLUSIVE_IO_WRITE_TIME]: number;
   [NodeProp.AVERAGE_IO_READ_TIME]: number;
   [NodeProp.AVERAGE_IO_WRITE_TIME]: number;
+  [NodeProp.DISTDB_QUERY]? : undefined;
+  [NodeProp.TOP_PLAN]? : undefined;
+  [NodeProp.TASKS]? : undefined;
+  [NodeProp.REMOTE_PLAN]? : undefined;
   [k: string]:
     | Node[]
     | Options

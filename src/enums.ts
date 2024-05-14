@@ -95,6 +95,12 @@ export enum NodeProp {
   FULL_SORT_GROUPS = "Full-sort Groups",
   PRE_SORTED_GROUPS = "Pre-sorted Groups",
   PRESORTED_KEY = "Presorted Key",
+  CUSTOM_PLAN_PROVIDER = "Custom Plan Provider",
+  TOP_PLAN = "Top Plan",
+  DISTDB_QUERY = "DistDB Query",
+  TASKS = "Tasks",
+  REMOTE_PLAN = "Remote Plan",
+  PLAN = "Plan",
 
   // computed by pev
   NODE_ID = "nodeId",
@@ -179,6 +185,7 @@ nodePropTypes[NodeProp.PRESORTED_KEY] = PropType.list
 nodePropTypes[NodeProp.WAL_RECORDS] = PropType.rows
 nodePropTypes[NodeProp.WAL_BYTES] = PropType.bytes
 nodePropTypes[NodeProp.WAL_FPI] = PropType.rows
+
 
 nodePropTypes[NodeProp.EXCLUSIVE_DURATION] = PropType.duration
 nodePropTypes[NodeProp.EXCLUSIVE_COST] = PropType.cost

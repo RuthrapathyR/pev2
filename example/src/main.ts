@@ -6,8 +6,10 @@ import App from "./App.vue"
 
 createApp(App).mount("#app")
 
-declare global {
-  interface Window {
-    setPlanData: () => void
-  }
-}
+// declare global {
+//   interface Window {
+//     setPlanData: () => void
+//   }
+// }
+
+export {App}

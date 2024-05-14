@@ -6,6 +6,8 @@ interface Props {
   sortGroup: SortGroups
 }
 defineProps<Props>()
+
+
 </script>
 
 <template>
