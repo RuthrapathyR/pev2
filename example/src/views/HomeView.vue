@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
 import { time_ago } from "../utils"
 import MainLayout from "../layouts/MainLayout.vue"
-import Plan from "@/components/Plan.vue"
+import Plan from "../../../src/components/Plan.vue"
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons"
 import {
   plan1_source,

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { inject } from "vue"
-import { SortDirection } from "@/enums"
+import { SortDirection } from "../enums"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faArrowDownShortWide,

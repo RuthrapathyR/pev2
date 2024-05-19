@@ -23,7 +23,8 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "build-cli-lib":"vue-cli-service build --target lib --name vue-lib-components example/src/main.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",

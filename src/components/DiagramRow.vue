@@ -9,11 +9,11 @@ import {
   SelectedNodeIdKey,
   SelectNodeKey,
   ViewOptionsKey,
-} from "@/symbols"
-import type { IPlan, Node, ViewOptions } from "@/interfaces"
+} from "../symbols"
+import type { IPlan, Node, ViewOptions } from "../interfaces"
 import { EstimateDirection, BufferLocation, NodeProp, Metric } from "../enums"
-import LevelDivider from "@/components/LevelDivider.vue"
-import useNode from "@/node"
+import LevelDivider from "../components/LevelDivider.vue"
+import useNode from "../node"
 
 interface Props {
   node: Node
