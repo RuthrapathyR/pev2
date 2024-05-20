@@ -14,6 +14,7 @@ import type { IPlan, Node, ViewOptions } from "../interfaces"
 import { EstimateDirection, BufferLocation, NodeProp, Metric } from "../enums"
 import LevelDivider from "../components/LevelDivider.vue"
 import useNode from "../node"
+import { directive as vTippy } from "vue-tippy"
 
 interface Props {
   node: Node
@@ -101,7 +102,6 @@ watch(
       selected: node.nodeId === selectedNodeId,
       highlight: node.nodeId === highlightedNodeId,
     }"
-    :data-tippy-content="getTooltipContent(node)"
     @mouseenter="highlightedNodeId = node.nodeId"
     @mouseleave="highlightedNodeId = undefined"
     @click.prevent="selectNode(node.nodeId, true)"
@@ -110,7 +110,7 @@ watch(
     <td class="node-index">
       <span class="fw-normal small">#{{ node.nodeId }} </span>
     </td>
-    <td class="node-type pe-2">
+    <td class="node-type pe-2" v-tippy="{ content: getTooltipContent, allowHTML: true }">
       <level-divider
         :isSubplan="!!node[NodeProp.SUBPLAN_NAME]"
         :isLastChild="!!isLastChild"

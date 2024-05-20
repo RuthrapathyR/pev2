@@ -734,7 +734,7 @@ const callBack = (nodeName : number)=>{
         class="tab-pane flex-grow-1 overflow-auto"
         :class="{ 'show active': activeTab === 'stats' }"
       >
-        <stats v-if="plan"></stats>
+        <stats v-if="plan" @node-click="(n)=>callBack(n)"></stats>
       </div>
     </div>
   </div>

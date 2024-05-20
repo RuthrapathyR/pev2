@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import _ from "lodash"
-import { computed, inject, onBeforeMount, ref } from "vue"
+import { computed, inject, onBeforeMount, ref, defineEmits } from "vue"
 import type { Ref } from "vue"
 import type { IPlan, Node, StatsTableItemType } from "../interfaces"
 import { PlanKey } from "../symbols"
@@ -91,6 +91,15 @@ const perIndex = computed(() => {
   })
   return values
 })
+
+const callback = (nodeName : number)=>{
+  nodeClick(nodeName);
+}
+
+const emit = defineEmits(["nodeClick"]);
+function nodeClick(node : number){
+  emit("nodeClick",node);
+}
 </script>
 
 <template>
@@ -120,6 +129,7 @@ const perIndex = computed(() => {
           <stats-table-item
             :value="value as StatsTableItemType"
             :executionTime="executionTime"
+            @node-Click="(n)=>callback(n)"
           ></stats-table-item>
         </template>
       </template>
@@ -154,6 +164,7 @@ const perIndex = computed(() => {
           <stats-table-item
             :value="value as StatsTableItemType"
             :executionTime="executionTime"
+            @node-Click="(n)=>callback(n)"
           ></stats-table-item>
         </template>
       </template>
@@ -164,6 +175,7 @@ const perIndex = computed(() => {
       :values="perIndex"
       sort="time"
       :dir="SortDirection.desc"
+      @node-Click="(n)=>callback(n)"
     >
       <thead class="table-secondary">
         <tr>
@@ -183,6 +195,7 @@ const perIndex = computed(() => {
           <stats-table-item
             :value="value as StatsTableItemType"
             :executionTime="executionTime"
+            @node-Click="(n)=>callback(n)"
           ></stats-table-item>
         </template>
       </template>

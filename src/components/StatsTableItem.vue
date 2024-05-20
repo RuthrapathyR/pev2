@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import _ from "lodash"
-import { ref } from "vue"
+import { ref, defineEmits } from "vue"
 import type { Node, StatsTableItemType } from "../interfaces"
 import { NodeProp } from "../enums"
 import { duration, durationClass, percent } from "../filters"
@@ -24,6 +24,11 @@ function durationPercent(node: Node) {
     (node[NodeProp.EXCLUSIVE_DURATION] as number) /
     (props.executionTime as number)
   )
+}
+
+const emit = defineEmits(["nodeClick"]);
+function nodeClick(node : Number){
+  emit("nodeClick",node);
 }
 </script>
 
@@ -64,7 +69,7 @@ function durationPercent(node: Node) {
       style="font-size: smaller"
     >
       <td class="ps-3">
-        <a :href="`#plan/node/${node.nodeId}`" class="me-1"
+        <a v-on:click.stop="nodeClick(node.nodeId)" class="me-1"
           >#{{ node.nodeId }}</a
         >
         {{ node[NodeProp.NODE_TYPE] }}

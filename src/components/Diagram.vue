@@ -71,29 +71,29 @@ onBeforeMount((): void => {
 })
 
 onMounted((): void => {
-  loadTooltips()
+  // loadTooltips()
 })
 
 watch(viewOptions, onViewOptionsChanged)
 
 function onViewOptionsChanged() {
   localStorage.setItem("diagramViewOptions", JSON.stringify(viewOptions))
-  nextTick(loadTooltips)
+  // nextTick(loadTooltips)
 }
 
-function loadTooltips(): void {
-  if (tippySingleton) {
-    tippySingleton.destroy()
-  }
-  _.each(tippyInstances, (instance) => {
-    instance.destroy()
-  })
-  tippyInstances = tippy(".diagram tr.node")
-  tippySingleton = createSingleton(tippyInstances, {
-    delay: 100,
-    allowHTML: true,
-  })
-}
+// function loadTooltips(): void {
+//   if (tippySingleton) {
+//     tippySingleton.destroy()
+//   }
+//   _.each(tippyInstances, (instance) => {
+//     instance.destroy()
+//   })
+//   tippyInstances = tippy(".diagram tr.node")
+//   tippySingleton = createSingleton(tippyInstances, {
+//     delay: 100,
+//     allowHTML: true,
+//   })
+// }
 
 function flatten(
   output: Row[],
