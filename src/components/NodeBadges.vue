@@ -10,9 +10,9 @@ import {
   faFilter,
   faExchangeAlt,
 } from "@fortawesome/free-solid-svg-icons"
-import useNode from "@/node"
-import type { IPlan, Node, ViewOptions } from "@/interfaces"
-import { PlanKey, ViewOptionsKey } from "@/symbols"
+import useNode from "../node"
+import type { IPlan, Node, ViewOptions } from "../interfaces"
+import { PlanKey, ViewOptionsKey } from "../symbols"
 interface Props {
   node: Node
 }

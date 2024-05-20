@@ -3,6 +3,7 @@ import "bootstrap"
 import "bootstrap/dist/css/bootstrap.css"
 
 import App from "./App.vue"
+import Plan from "../../src/components/Plan.vue"
 
 createApp(App).mount("#app")
 

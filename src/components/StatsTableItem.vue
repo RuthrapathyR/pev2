@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import _ from "lodash"
 import { ref } from "vue"
-import type { Node, StatsTableItemType } from "@/interfaces"
-import { NodeProp } from "@/enums"
-import { duration, durationClass, percent } from "@/filters"
+import type { Node, StatsTableItemType } from "../interfaces"
+import { NodeProp } from "../enums"
+import { duration, durationClass, percent } from "../filters"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faChevronDown,

@@ -2,12 +2,12 @@
 import _ from "lodash"
 import { computed, inject, onBeforeMount, ref } from "vue"
 import type { Ref } from "vue"
-import type { IPlan, Node, StatsTableItemType } from "@/interfaces"
-import { PlanKey } from "@/symbols"
-import { NodeProp, SortDirection } from "@/enums"
-import SortedTable from "@/components/SortedTable.vue"
-import SortLink from "@/components/SortLink.vue"
-import StatsTableItem from "@/components/StatsTableItem.vue"
+import type { IPlan, Node, StatsTableItemType } from "../interfaces"
+import { PlanKey } from "../symbols"
+import { NodeProp, SortDirection } from "../enums"
+import SortedTable from "../components/SortedTable.vue"
+import SortLink from "../components/SortLink.vue"
+import StatsTableItem from "../components/StatsTableItem.vue"
 
 const nodes: Node[] = []
 const executionTime = ref<number>(0)

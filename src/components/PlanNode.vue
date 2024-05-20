@@ -1,20 +1,20 @@
 <script lang="ts" setup>
 import { inject, nextTick, onMounted, provide, reactive, ref, watch } from "vue"
 import type { Ref } from "vue"
-import PlanNodeDetail from "@/components/PlanNodeDetail.vue"
-import NodeBadges from "@/components/NodeBadges.vue"
-import type { IPlan, Node, ViewOptions } from "@/interfaces"
+import PlanNodeDetail from "./PlanNodeDetail.vue"
+import NodeBadges from "../components/NodeBadges.vue"
+import type { IPlan, Node, ViewOptions } from "../interfaces"
 import {
   HighlightedNodeIdKey,
   PlanKey,
   SelectedNodeIdKey,
   SelectNodeKey,
   ViewOptionsKey,
-} from "@/symbols"
-import { keysToString, sortKeys } from "@/filters"
-import { HighlightType, NodeProp } from "@/enums"
-import { findNodeBySubplanName } from "@/services/help-service"
-import useNode from "@/node"
+} from "../symbols"
+import { keysToString, sortKeys } from "../filters"
+import { HighlightType, NodeProp } from "../enums"
+import { findNodeBySubplanName } from "../services/help-service"
+import useNode from "../node"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faChevronDown,

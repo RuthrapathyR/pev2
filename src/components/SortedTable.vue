@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import _ from "lodash"
 import { computed, provide, ref } from "vue"
-import { SortDirection } from "@/enums"
+import { SortDirection } from "../enums"
 
 interface Props {
   values: object[]

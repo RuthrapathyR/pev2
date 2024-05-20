@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import _ from "lodash"
-import { computed, inject, onBeforeMount, onMounted } from "vue"
+import { computed, inject, onBeforeMount, onMounted,defineEmits } from "vue"
 import type { Ref } from "vue"
-import type { IPlan, Node, Row } from "@/interfaces"
-import GridRow from "@/components/GridRow.vue"
-import { PlanKey } from "@/symbols"
+import type { IPlan, Node, Row } from "../interfaces"
+import GridRow from "../components/GridRow.vue"
+import { PlanKey } from "../symbols"
 import { NodeProp } from "../enums"
-import LevelDivider from "@/components/LevelDivider.vue"
+import LevelDivider from "../components/LevelDivider.vue"
 const plan = inject(PlanKey) as Ref<IPlan>
 
 let plans: Row[][] = [[]]
@@ -284,6 +284,15 @@ const columnsRight = computed<string[]>(() => {
 const columns = computed(() => {
   return ([] as string[]).concat(columnsLeft.value, columnsRight.value)
 })
+
+const callback = (nodeName : number)=>{
+  nodeClick(nodeName);
+}
+
+const emit = defineEmits(["nodeClick"]);
+function nodeClick(node : number){
+  emit("nodeClick",node);
+}
 </script>
 
 <template>
@@ -365,6 +374,7 @@ const columns = computed(() => {
             :branches="row[3]"
             :index="index"
             :columns="columns"
+            @node-Click="(n)=>callback(n)"
           ></grid-row>
         </template>
       </tbody>

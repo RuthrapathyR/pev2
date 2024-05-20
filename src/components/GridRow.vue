@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { inject, reactive, ref } from "vue"
+import { inject, reactive, ref, defineEmits } from "vue"
 import type { Ref } from "vue"
-import type { IPlan, Node, ViewOptions } from "@/interfaces"
-import { EstimateDirection, NodeProp } from "@/enums"
-import { PlanKey, ViewOptionsKey } from "@/symbols"
+import type { IPlan, Node, ViewOptions } from "../interfaces"
+import { EstimateDirection, NodeProp } from "../enums"
+import { PlanKey, ViewOptionsKey } from "../symbols"
 import {
   blocks,
   blocksAsBytes,
@@ -13,15 +13,15 @@ import {
   formatNodeProp,
   keysToString,
   sortKeys,
-} from "@/filters"
-import LevelDivider from "@/components/LevelDivider.vue"
-import GridProgressBar from "@/components/GridProgressBar.vue"
-import WorkersDetail from "@/components/WorkersDetail.vue"
-import MiscDetail from "@/components/MiscDetail.vue"
-import SeverityBullet from "@/components/SeverityBullet.vue"
-import useNode from "@/node"
+} from "../filters"
+import LevelDivider from "../components/LevelDivider.vue"
+import GridProgressBar from "../components/GridProgressBar.vue"
+import WorkersDetail from "../components/WorkersDetail.vue"
+import MiscDetail from "../components/MiscDetail.vue"
+import SeverityBullet from "../components/SeverityBullet.vue"
+import useNode from "../node"
 import { directive as vTippy } from "vue-tippy"
-import { HelpService } from "@/services/help-service"
+import { HelpService } from "../services/help-service"
 const helpService = new HelpService()
 const getNodeTypeDescription = helpService.getNodeTypeDescription
 
@@ -83,12 +83,18 @@ function formattedProp(propName: keyof typeof NodeProp) {
   const value = node[property]
   return formatNodeProp(property, value)
 }
+
+const emit = defineEmits(["nodeClick"]);
+function nodeClick(node : Number){
+  emit("nodeClick",node);
+}
+
 </script>
 <template>
   <tr @click="showDetails = !showDetails" class="node">
     <td class="node-index text-muted">
       <!-- node id -->
-      <a :href="`#plan/node/${node.nodeId}`" @click.stop>
+      <a v-on:click.stop="nodeClick(node.nodeId)">
         <span class="font-weight-normal small">#{{ node.nodeId }} </span>
       </a>
     </td>
