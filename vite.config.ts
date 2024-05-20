@@ -5,15 +5,16 @@ import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import { viteSingleFile } from "vite-plugin-singlefile"
 
-const build = process.env.LIB
-  ? {
+const build = 
+// process.env.LIB
+  // ? 
+  {
       lib: {
-        entry: path.resolve(__dirname, "src/components/index.ts"),
+        entry: path.resolve(__dirname, "./example/src/main.ce.ts"),
         name: "pev2",
         fileName: "pev2",
       },
       rollupOptions: {
-        external: ["vue"],
         output: {
           // Provide global variables to use in the UMD build
           // Add external deps here
@@ -23,19 +24,19 @@ const build = process.env.LIB
         },
       },
     }
-  : {
-      outDir: "dist-app",
-      target: "esnext",
-      assetsInlineLimit: 100000000,
-      chunkSizeWarningLimit: 100000000,
-      cssCodeSplit: false,
-      brotliSize: false,
-      rollupOptions: {
-        output: {
-          inlineDynamicImports: true,
-        },
-      },
-    }
+  // : {
+  //     outDir: "dist-app",
+  //     target: "esnext",
+  //     assetsInlineLimit: 100000000,
+  //     chunkSizeWarningLimit: 100000000,
+  //     cssCodeSplit: false,
+  //     brotliSize: false,
+  //     rollupOptions: {
+  //       output: {
+  //         inlineDynamicImports: true,
+  //       },
+  //     },
+  //   }
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -45,6 +46,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           whitespace: "preserve",
+          isCustomElement: (tag) => tag.includes('simple-sample')
         },
       },
     }),
