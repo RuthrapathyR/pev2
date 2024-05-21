@@ -101,6 +101,11 @@ export enum NodeProp {
   TASKS = "Tasks",
   REMOTE_PLAN = "Remote Plan",
   PLAN = "Plan",
+  CLUSTER = "Cluster",
+  TASKQUERY = "TaskQuery",
+  TASK_COUNT = "Task Count",
+  TASKS_SHOWN = "Tasks Shown",
+  
 
   // computed by pev
   NODE_ID = "nodeId",

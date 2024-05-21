@@ -67,6 +67,21 @@ export type IBlocksStats = {
 
 import { EstimateDirection, NodeProp } from "@/enums"
 
+interface TASK {
+  [NodeProp.CLUSTER] : string;
+  [NodeProp.TASKQUERY] : string;
+  [NodeProp.REMOTE_PLAN] : [[Node]]
+}
+interface TASKS extends Array<Task>{}
+interface DISTDB_QUERY {
+  [NodeProp.TASK_COUNT] : number;
+  [NodeProp.TASKS_SHOWN] : string;
+  [NodeProp.TASKS] : TASKS;
+}
+interface TOP_PLAN {
+  [NodeProp.DISTDB_QUERY] : DISTDB_QUERY;
+}
+
 // Class to create nodes when parsing text
 export class Node {
   nodeId!: number
@@ -111,10 +126,7 @@ export class Node {
   [NodeProp.EXCLUSIVE_IO_WRITE_TIME]: number;
   [NodeProp.AVERAGE_IO_READ_TIME]: number;
   [NodeProp.AVERAGE_IO_WRITE_TIME]: number;
-  [NodeProp.DISTDB_QUERY]? : undefined;
-  [NodeProp.TOP_PLAN]? : undefined;
-  [NodeProp.TASKS]? : undefined;
-  [NodeProp.REMOTE_PLAN]? : undefined;
+  [NodeProp.TOP_PLAN] : TOP_PLAN;
   [k: string]:
     | Node[]
     | Options
