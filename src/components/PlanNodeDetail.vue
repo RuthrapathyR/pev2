@@ -190,7 +190,19 @@ watch(activeTab, () => {
       </li>
     </ul>
   </div>
-  <div class="card-body tab-content">
+  <div class="card-body tab-content" v-if="node[NodeProp.NODE_TYPE] === 'Custom Scan' && node[NodeProp.CUSTOM_PLAN_PROVIDER] == 'DistDB CustomScan'"> 
+    <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">        
+        <ul class="pl-3" v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined">
+          <li v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined && node[NodeProp.TOP_PLAN] != undefined" v-for="task in node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY][NodeProp.TASKS][0][NodeProp.REMOTE_PLAN][0]" @click="tasksClick(task[NodeProp.PLAN])">
+            <a>{{ task[NodeProp.PLAN][NodeProp.NODE_TYPE] }}</a>
+          </li>
+        </ul>
+    </div>
+    <div class="tab-pane" :class="{ 'show active': activeTab === 'workerTasks' }">
+      worker tasks
+    </div>
+  </div>
+  <div class="card-body tab-content" v-else>
     <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">
       <!-- general -->
       <div v-if="plan.isAnalyze">

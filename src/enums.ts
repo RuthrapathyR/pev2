@@ -95,6 +95,17 @@ export enum NodeProp {
   FULL_SORT_GROUPS = "Full-sort Groups",
   PRE_SORTED_GROUPS = "Pre-sorted Groups",
   PRESORTED_KEY = "Presorted Key",
+  CUSTOM_PLAN_PROVIDER = "Custom Plan Provider",
+  TOP_PLAN = "Top Plan",
+  DISTDB_QUERY = "DistDB Query",
+  TASKS = "Tasks",
+  REMOTE_PLAN = "Remote Plan",
+  PLAN = "Plan",
+  CLUSTER = "Cluster",
+  TASKQUERY = "TaskQuery",
+  TASK_COUNT = "Task Count",
+  TASKS_SHOWN = "Tasks Shown",
+  
 
   // computed by pev
   NODE_ID = "nodeId",
