@@ -72,7 +72,7 @@ interface TASK {
   [NodeProp.TASKQUERY] : string;
   [NodeProp.REMOTE_PLAN] : [[Node]]
 }
-interface TASKS extends Array<Task>{}
+interface TASKS extends Array<TASK>{}
 interface DISTDB_QUERY {
   [NodeProp.TASK_COUNT] : number;
   [NodeProp.TASKS_SHOWN] : string;
@@ -140,6 +140,9 @@ export class Node {
     | string[]
     | undefined
     | [number, number]
+    | TOP_PLAN
+    | [NodeProp.NODE_TYPE]
+    | Node
   constructor(type?: string) {
     if (!type) {
       return

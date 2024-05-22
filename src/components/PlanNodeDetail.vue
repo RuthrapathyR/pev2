@@ -116,13 +116,43 @@ function formattedProp(propName: keyof typeof NodeProp) {
   return formatNodeProp(property, value)
 }
 
+// task link click
+function tasksClick(plan : any){
+  console.log(plan);
+  
+}
+
 watch(activeTab, () => {
   window.setTimeout(() => updateSize && updateSize(node), 1)
 })
 </script>
 
 <template>
-  <div class="card-header border-top">
+  <div class="card-header border-top" v-if="node[NodeProp.NODE_TYPE] === 'Custom Scan' && node[NodeProp.CUSTOM_PLAN_PROVIDER] == 'DistDB CustomScan'">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          :class="{ active: activeTab === 'general' }"
+          @click.prevent.stop="activeTab = 'general'"
+          href=""
+          >Tasks</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link text-nowrap"
+          :class="{
+            active: activeTab === 'workerTasks',            
+          }"
+          @click.prevent.stop="activeTab = 'workerTasks'"
+          href=""
+          >Worker Tasks</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="card-header border-top" v-else>
     <div
       v-if="getNodeTypeDescription(node[NodeProp.NODE_TYPE])"
       class="node-description"
@@ -194,7 +224,7 @@ watch(activeTab, () => {
     <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">        
         <ul class="pl-3" v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined">
           <li v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined && node[NodeProp.TOP_PLAN] != undefined" v-for="task in node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY][NodeProp.TASKS][0][NodeProp.REMOTE_PLAN][0]" @click="tasksClick(task[NodeProp.PLAN])">
-            <a>{{ task[NodeProp.PLAN][NodeProp.NODE_TYPE] }}</a>
+            <a>{{ (task as any)![NodeProp.PLAN]![NodeProp.NODE_TYPE] }}</a>
           </li>
         </ul>
     </div>
