@@ -2,7 +2,7 @@
 import { computed, inject, onBeforeMount, reactive, ref, watch } from "vue"
 import type { Ref } from "vue"
 import { directive as vTippy } from "vue-tippy"
-import type { IPlan, Node, ViewOptions } from "../interfaces"
+import type { Node, IPlan, ViewOptions } from "../interfaces"
 import { HelpService } from "../services/help-service"
 import { formatNodeProp } from "../filters"
 import { EstimateDirection, NodeProp } from "../enums"
@@ -23,6 +23,7 @@ import {
   faInfoCircle,
   faUndo,
 } from "@fortawesome/free-solid-svg-icons"
+import {getTaskData} from "../../example/src/utils"
 
 const viewOptions = inject(ViewOptionsKey) as ViewOptions
 
@@ -118,17 +119,32 @@ function formattedProp(propName: keyof typeof NodeProp) {
 
 // task link click
 function tasksClick(plan : any){
-  console.log(plan);
+  console.log(getTaskData(plan[0],plan[1]));
   
 }
+
+//order by timeTaken
+// function orderByTimeTaken(data:any){
+//   return orderByDesc(data)
+// }
 
 watch(activeTab, () => {
   window.setTimeout(() => updateSize && updateSize(node), 1)
 })
+
+
+function handleClick(ele:any){
+  if(ele.target.nextSibling.nextSibling.style.display === "block"){
+    ele.target.nextSibling.nextSibling.style.display = "none";
+  }else{
+    ele.target.nextSibling.nextSibling.style.display = "block";
+  }
+  window.setTimeout(() => updateSize &&  updateSize(node), 1)  
+}
 </script>
 
 <template>
-  <div class="card-header border-top" v-if="node[NodeProp.NODE_TYPE] === 'Custom Scan' && node[NodeProp.CUSTOM_PLAN_PROVIDER] == 'DistDB CustomScan'">
+  <div class="card-header border-top" v-if="node[NodeProp.CUSTOM_PLAN_PROVIDER] == NodeProp.DISTDB_CUSTOMSCAN && node[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN || node[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN)">
     <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
         <a
@@ -220,16 +236,27 @@ watch(activeTab, () => {
       </li>
     </ul>
   </div>
-  <div class="card-body tab-content" v-if="node[NodeProp.NODE_TYPE] === 'Custom Scan' && node[NodeProp.CUSTOM_PLAN_PROVIDER] == 'DistDB CustomScan'"> 
-    <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">        
-        <ul class="pl-3" v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined">
-          <li v-if="node[NodeProp.TOP_PLAN] != undefined && node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY] != undefined && node[NodeProp.TOP_PLAN] != undefined" v-for="task in node[NodeProp.TOP_PLAN]![NodeProp.DISTDB_QUERY][NodeProp.TASKS][0][NodeProp.REMOTE_PLAN][0]" @click="tasksClick(task[NodeProp.PLAN])">
-            <a>{{ (task as any)![NodeProp.PLAN]![NodeProp.NODE_TYPE] }}</a>
+  <div class="card-body tab-content" v-if="node[NodeProp.CUSTOM_PLAN_PROVIDER] == NodeProp.DISTDB_CUSTOMSCAN && node[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN || node[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN)"> 
+    <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">  
+        <ul class="pl-3" v-if="node[NodeProp.DISTDB_QUERY] != undefined">
+          <li v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in node[NodeProp.TASK_DESC_ORDER]" @click="tasksClick([node[NodeProp.NODE_TYPE],task[NodeProp.TASK_ID]])">
+            <a>{{ `${(task as any)[NodeProp.TASK_ID]} ---> ${(task as any)[NodeProp.TOTAL_TIME]}` }}</a>
           </li>
         </ul>
     </div>
     <div class="tab-pane" :class="{ 'show active': activeTab === 'workerTasks' }">
-      worker tasks
+      <ul>
+          <li v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in Object.keys(node[NodeProp.TASK_PER_WORKER])">
+            <a @click.prevent.stop="(ele)=>handleClick(ele)">{{ task }}</a>
+            <div style="margin: 0px 0px 0px 10px;display: none;">
+              <ul>
+                <li v-for="perTask in node[NodeProp.TASK_PER_WORKER][task]">
+                  <a style="display: block"> {{`${perTask[NodeProp.TASK_ID]} ---> ${perTask[NodeProp.TOTAL_TIME]}`}} </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+      </ul>
     </div>
   </div>
   <div class="card-body tab-content" v-else>

@@ -74,12 +74,12 @@ interface TASK {
 }
 interface TASKS extends Array<TASK>{}
 interface DISTDB_QUERY {
+  [NodeProp.JOB] : JOB;
+}
+interface JOB {
   [NodeProp.TASK_COUNT] : number;
   [NodeProp.TASKS_SHOWN] : string;
   [NodeProp.TASKS] : TASKS;
-}
-interface TOP_PLAN {
-  [NodeProp.DISTDB_QUERY] : DISTDB_QUERY;
 }
 
 // Class to create nodes when parsing text
@@ -127,7 +127,11 @@ export class Node {
   [NodeProp.EXCLUSIVE_IO_WRITE_TIME]: number;
   [NodeProp.AVERAGE_IO_READ_TIME]: number;
   [NodeProp.AVERAGE_IO_WRITE_TIME]: number;
-  [NodeProp.TOP_PLAN] : TOP_PLAN;
+  [NodeProp.DISTDB_QUERY]! : DISTDB_QUERY;
+  [NodeProp.QUERY_TEXT]! : string;
+  [NodeProp.TOTAL_TIME]! : number;
+  [NodeProp.TASK_PER_WORKER]! : any;
+  [NodeProp.TASK_DESC_ORDER]! : any;
   [k: string]:
     | Node[]
     | Options
@@ -140,7 +144,7 @@ export class Node {
     | string[]
     | undefined
     | [number, number]
-    | TOP_PLAN
+    | DISTDB_QUERY
     | [NodeProp.NODE_TYPE]
     | Node
   constructor(type?: string) {
