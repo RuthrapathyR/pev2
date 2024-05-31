@@ -9,6 +9,6 @@ import App from "./App.ce.vue"
 //   }
 // }
 
-const SimpleSample = defineCustomElement(App)
+const PlanDisplayer = defineCustomElement(App)
 
-customElements.define("simple-sample", SimpleSample)
+customElements.define("plan-displayer", PlanDisplayer)
