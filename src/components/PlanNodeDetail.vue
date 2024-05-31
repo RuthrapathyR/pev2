@@ -122,7 +122,8 @@ function formattedProp(propName: keyof typeof NodeProp) {
 // task link click
 function tasksClick(plan : any){
   console.log(getTaskData(plan[0],plan[1]));
-  
+  localStorage.setItem("data",JSON.stringify([getTaskData(plan[0],plan[1])["Remote Plan"][0]]));
+  window.open("/plan", '_blank');
 }
 
 //order by timeTaken
@@ -152,7 +153,9 @@ function removeHoverEffect(ele:any){
   ele.target.parentElement.classList.remove("taskDetails");
 }
 </script>
-
+<style scoped>
+  .plan-node:hover .taskDetails,.plan-node.highlight .taskDetails{box-shadow:#00000059 0 5px 15px;border-radius:3px} 
+</style>
 <template>
   <div class="card-header border-top" v-if="node[NodeProp.CUSTOM_PLAN_PROVIDER] == NodeProp.DISTDB_CUSTOMSCAN && node[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN || node[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN)">
     <ul class="nav nav-tabs card-header-tabs">
