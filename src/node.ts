@@ -11,7 +11,6 @@ import {
 } from "@/enums"
 import { blocks, cost, duration, factor, rows, transferRate } from "@/filters"
 import { numberToColorHsl } from "@/services/color-service"
-
 export default function useNode(
   plan: Ref<IPlan>,
   node: Node,
@@ -97,13 +96,18 @@ export default function useNode(
       (plan.value.planStats.executionTime as number) ||
       (plan.value.content?.Plan?.[NodeProp.ACTUAL_TOTAL_TIME] as number)
     const duration = node[NodeProp.EXCLUSIVE_DURATION] as number
+    // console.log("Time",node[NodeProp.NODE_TYPE],duration,executionTime)
     executionTimePercent.value = _.round((duration / executionTime) * 100)
+    // console.log(executionTimePercent.value);
   }
 
   function calculateCost() {
     const maxTotalCost = plan.value.content.maxTotalCost as number
     const cost = node[NodeProp.EXCLUSIVE_COST] as number
+    console.log("Cost",node[NodeProp.NODE_TYPE],"asd",cost,"asdasd",maxTotalCost)
     costPercent.value = _.round((cost / maxTotalCost) * 100)
+    console.log(costPercent.value);
+    
   }
 
   type NodePropStrings = keyof typeof NodeProp

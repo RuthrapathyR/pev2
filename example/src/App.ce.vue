@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps,ref,watch} from "vue"
 import Plan from "../../src/components/Plan.vue"
+import {processData} from "./utils.ts"
 
 const props = defineProps({
   data: {
@@ -13,7 +14,7 @@ const planRef = ref('');
 watch(() => props.data, (newValue) => {
   console.log(newValue)
 })
-planRef.value = `${props.data}`
+planRef.value = `${JSON.stringify(processData(JSON.parse(props.data)))}`
 </script>
 <style src="./style.css"></style>
 <template>

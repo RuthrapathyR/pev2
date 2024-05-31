@@ -46,6 +46,8 @@ const nodeProps = ref<
 // UI flags
 const activeTab = ref<string>("general")
 
+const isHovering = ref<boolean>(false);
+
 const helpService = new HelpService()
 const getNodeTypeDescription = helpService.getNodeTypeDescription
 
@@ -140,6 +142,14 @@ function handleClick(ele:any){
     ele.target.nextSibling.nextSibling.style.display = "block";
   }
   window.setTimeout(() => updateSize &&  updateSize(node), 1)  
+}
+
+function addHoverEffect(ele:any){
+  ele.target.parentElement.classList.add("taskDetails");
+}
+
+function removeHoverEffect(ele:any){
+  ele.target.parentElement.classList.remove("taskDetails");
 }
 </script>
 
@@ -238,22 +248,51 @@ function handleClick(ele:any){
   </div>
   <div class="card-body tab-content" v-if="node[NodeProp.CUSTOM_PLAN_PROVIDER] == NodeProp.DISTDB_CUSTOMSCAN && node[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN || node[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN)"> 
     <div class="tab-pane" :class="{ 'show active': activeTab === 'general' }">  
-        <ul class="pl-3" v-if="node[NodeProp.DISTDB_QUERY] != undefined">
-          <li v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in node[NodeProp.TASK_DESC_ORDER]" @click="tasksClick([node[NodeProp.NODE_TYPE],task[NodeProp.TASK_ID]])">
-            <a>{{ `${(task as any)[NodeProp.TASK_ID]} ---> ${(task as any)[NodeProp.TOTAL_TIME]}` }}</a>
-          </li>
-        </ul>
+      <table class="pl-3" v-if="node[NodeProp.DISTDB_QUERY] != undefined">
+          <tr v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in node[NodeProp.TASK_DESC_ORDER]" @click="tasksClick([node[NodeProp.NODE_TYPE],task[NodeProp.TASK_ID]])" style="cursor: pointer;"
+            @mouseover="(ele)=>{addHoverEffect(ele)}"
+            @mouseout="(ele)=>{removeHoverEffect(ele)}"
+           >
+            <td>
+              &#x2022
+            </td>
+            <td style="text-align: right;">
+              {{ (task as any)[NodeProp.TASK_ID] }}
+            </td>
+            <td>
+              &nbsp;{{ '---->'}}&nbsp;
+            </td>
+            <td>
+              {{(task as any)[NodeProp.TOTAL_TIME]}}ms
+            </td>
+          </tr>
+      </table>
     </div>
     <div class="tab-pane" :class="{ 'show active': activeTab === 'workerTasks' }">
       <ul>
           <li v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in Object.keys(node[NodeProp.TASK_PER_WORKER])">
             <a @click.prevent.stop="(ele)=>handleClick(ele)">{{ task }}</a>
             <div style="margin: 0px 0px 0px 10px;display: none;">
-              <ul>
-                <li v-for="perTask in node[NodeProp.TASK_PER_WORKER][task]">
-                  <a style="display: block"> {{`${perTask[NodeProp.TASK_ID]} ---> ${perTask[NodeProp.TOTAL_TIME]}`}} </a>
-                </li>
-              </ul>
+              <table>
+                <tr v-for="perTask in node[NodeProp.TASK_PER_WORKER][task]"
+                @mouseover="(ele)=>{addHoverEffect(ele)}"
+                @mouseout="(ele)=>{removeHoverEffect(ele)}"
+                @click="tasksClick([node[NodeProp.NODE_TYPE],perTask[NodeProp.TASK_ID]])"
+            >
+                  <td style="font-size: 10px;">
+                    &#9702;
+                  </td>
+                  <td style="text-align: right;">
+                    {{ perTask[NodeProp.TASK_ID]}}
+                  </td>
+                  <td>
+                    &nbsp;{{ '---->'}}&nbsp;
+                  </td>
+                  <td>
+                    {{perTask[NodeProp.TOTAL_TIME]}}ms
+                  </td>
+                </tr>
+              </table>
             </div>
           </li>
       </ul>

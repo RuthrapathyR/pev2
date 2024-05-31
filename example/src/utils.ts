@@ -1,7 +1,7 @@
 import { NodeProp } from "../../src/enums"
 
 let plansData : any = {};
-export function time_ago(time) {
+export function time_ago(time : any) {
   switch (typeof time) {
     case "number":
       break
@@ -55,27 +55,29 @@ export function time_ago(time) {
 }
 
 function findNodeReplace(data:any,replaceData:any,nodeType:NodeProp){
-  if(nodeType === NodeProp.FUNCTION_SCAN){
-    if(data[NodeProp.NODE_TYPE] === NodeProp.FUNCTION_SCAN && data[NodeProp.FUNCTION_NAME] === NodeProp.WORKER_READ_INTERMEDIATE_RESULTS){
-      data[NodeProp.PLANS] = [replaceData];        
-    }else{
-      if(data[NodeProp.PLANS] != undefined){
-        for(let i=0;i<data[NodeProp.PLANS].length;i++){        
-          findNodeReplace(data[NodeProp.PLANS][i],replaceData,nodeType);
+  if(data != undefined){
+    if(nodeType === NodeProp.FUNCTION_SCAN ){
+      if(data[NodeProp.NODE_TYPE] === NodeProp.FUNCTION_SCAN && data[NodeProp.FUNCTION_NAME] === NodeProp.WORKER_READ_INTERMEDIATE_RESULTS){
+        data[NodeProp.PLANS] = [replaceData];        
+      }else{
+        if(data[NodeProp.PLANS] != undefined){
+          for(let i=0;i<data[NodeProp.PLANS].length;i++){        
+            findNodeReplace(data[NodeProp.PLANS][i],replaceData,nodeType);
+          }
+        }
+      }
+    }else if(nodeType === NodeProp.CUSTOM_SCAN){    
+      if(data[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN && data[NodeProp.CUSTOM_PLAN_PROVIDER] === NodeProp.DISTDB_CUSTOMSCAN){
+        data[NodeProp.PLANS] = [data[NodeProp.SUB_PLANS]];        
+      }else{
+        if(data[NodeProp.PLANS] != undefined){
+          for(let i=0;i<data[NodeProp.PLANS].length;i++){        
+            findNodeReplace(data[NodeProp.PLANS][i],"",nodeType);
+          }
         }
       }
     }
-  }else if(nodeType === NodeProp.CUSTOM_SCAN){
-    if(data[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN && data[NodeProp.CUSTOM_PLAN_PROVIDER] === NodeProp.DISTDB_CUSTOMSCAN){
-      data[NodeProp.PLANS] = [data[NodeProp.SUB_PLANS]];        
-    }else{
-      if(data[NodeProp.PLANS] != undefined){
-        for(let i=0;i<data[NodeProp.PLANS].length;i++){        
-          findNodeReplace(data[NodeProp.PLANS][i],"",nodeType);
-        }
-      }
-    }
-  }
+  }  
 }
 
 function taskPerWorker(data:any){
@@ -122,28 +124,33 @@ function orderByDesc(data : any){
 }
 
 function processDataForTaskPerWorker(data:any){
-  if((data[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN && data[NodeProp.CUSTOM_PLAN_PROVIDER] === NodeProp.DISTDB_CUSTOMSCAN) || (data[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN))){
-    data[NodeProp.TASK_PER_WORKER] = taskPerWorker(data[NodeProp.DISTDB_QUERY][NodeProp.JOB][NodeProp.TASKS]);
-    let orderByData = orderByDesc(data[NodeProp.DISTDB_QUERY][NodeProp.JOB][NodeProp.TASKS]);
-    data[NodeProp.TASK_DESC_ORDER] = orderByData[0];
-    plansData[data[NodeProp.NODE_TYPE]] = orderByData[1];
-    data[NodeProp.DISTDB_QUERY] = {};
-    data[NodeProp.SUB_PLANS] = {};
-  }
-  if(data[NodeProp.PLANS] != undefined){
-    for(let i=0;i<data[NodeProp.PLANS].length;i++){        
-      processDataForTaskPerWorker(data[NodeProp.PLANS][i]);
+  if(data != undefined){
+    if((data[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN && data[NodeProp.CUSTOM_PLAN_PROVIDER] === NodeProp.DISTDB_CUSTOMSCAN) || (data[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN))){
+      data[NodeProp.TASK_PER_WORKER] = taskPerWorker(data[NodeProp.DISTDB_QUERY][NodeProp.JOB][NodeProp.TASKS]);
+      let orderByData = orderByDesc(data[NodeProp.DISTDB_QUERY][NodeProp.JOB][NodeProp.TASKS]);
+      data[NodeProp.TASK_DESC_ORDER] = orderByData[0];
+      plansData[data[NodeProp.NODE_TYPE]] = orderByData[1];
+      data[NodeProp.DISTDB_QUERY] = {};
+      data[NodeProp.SUB_PLANS] = {};
     }
-  } 
+    if(data[NodeProp.PLANS] != undefined){
+      for(let i=0;i<data[NodeProp.PLANS].length;i++){        
+        processDataForTaskPerWorker(data[NodeProp.PLANS][i]);
+      }
+    } 
+  }
 }
 
 
 
 export function processData(data :any){
   let newData = data;
-  findNodeReplace(newData[0][NodeProp.PLAN],data[0][NodeProp.SUB_PLANS],NodeProp.FUNCTION_SCAN);
+  if(data[0][NodeProp.SUB_PLANS] != null){
+    findNodeReplace(newData[0][NodeProp.PLAN],data[0][NodeProp.SUB_PLANS],NodeProp.FUNCTION_SCAN);
+  }
   findNodeReplace(newData[0][NodeProp.PLAN],"",NodeProp.CUSTOM_SCAN);
   processDataForTaskPerWorker(newData[0][NodeProp.PLAN]);
+  console.log(newData);
   return newData;
 }
 
