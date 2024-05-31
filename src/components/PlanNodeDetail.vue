@@ -122,7 +122,7 @@ function formattedProp(propName: keyof typeof NodeProp) {
 // task link click
 function tasksClick(plan : any){
   console.log(getTaskData(plan[0],plan[1]));
-  localStorage.setItem("data",JSON.stringify([getTaskData(plan[0],plan[1])["Remote Plan"][0]]));
+  localStorage.setItem("Plan",JSON.stringify([getTaskData(plan[0],plan[1])["Remote Plan"][0]]));
   window.open("/plan", '_blank');
 }
 

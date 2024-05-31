@@ -14,7 +14,7 @@ const planRef = ref('');
 watch(() => props.data, (newValue) => {
   console.log(newValue)
 })
-setPlanSource(planData[0]);
+setPlanSource(props.data);
 planRef.value = `${JSON.stringify(processData(JSON.parse(props.data)))}`
 </script>
 <style src="./style.css"></style>
