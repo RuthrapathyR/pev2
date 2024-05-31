@@ -46,6 +46,7 @@ import {
   type FlexHierarchyPointLink,
   type FlexHierarchyPointNode,
 } from "d3-flextree"
+import { getPlanSource } from "../../example/src/utils"
 
 interface Props {
   planSource: string
@@ -711,9 +712,9 @@ const callBack = (nodeName : number)=>{
           <div class="overflow-auto flex-grow-1">
             <pre
               class="small p-2 mb-0"
-            ><code v-html="json_(planSource)"></code></pre>
+            ><code v-html="json_(getPlanSource())"></code></pre>
           </div>
-          <copy :content="planSource" />
+          <copy :content="getPlanSource()" />
         </div>
       </div>
       <div

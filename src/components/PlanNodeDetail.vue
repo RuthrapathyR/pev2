@@ -274,7 +274,7 @@ function removeHoverEffect(ele:any){
     <div class="tab-pane" :class="{ 'show active': activeTab === 'workerTasks' }">
       <ul>
           <li v-if="node[NodeProp.DISTDB_QUERY] != undefined" v-for="task in Object.keys(node[NodeProp.TASK_PER_WORKER])">
-            <a @click.prevent.stop="(ele)=>handleClick(ele)">{{ task }}</a>
+            <a @click.prevent.stop="(ele)=>handleClick(ele)" style="cursor: pointer;">{{ task }}</a>
             <div style="margin: 0px 0px 0px 10px;display: none;">
               <table>
                 <tr v-for="perTask in node[NodeProp.TASK_PER_WORKER][task]"

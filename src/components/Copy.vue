@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { faCheck, faClipboard } from "@fortawesome/free-solid-svg-icons"
 
 interface Props {
-  content: string
+  content: any
 }
 const props = defineProps<Props>()
 const copied = ref<boolean>(false)
 
 function copyRaw() {
   const { toClipboard } = useClipboard()
-  toClipboard(props.content)
+  toClipboard(props.content.toString())
   copied.value = true
   window.setTimeout(() => {
     copied.value = false

@@ -1,6 +1,7 @@
 import { NodeProp } from "../../src/enums"
 
 let plansData : any = {};
+let planSource : string = '';
 export function time_ago(time : any) {
   switch (typeof time) {
     case "number":
@@ -156,4 +157,10 @@ export function processData(data :any){
 
 export function getTaskData(nodeType : any,taskId : any){
   return plansData[nodeType][taskId];
+}
+export function setPlanSource(data:string){
+  planSource = data;
+}
+export function getPlanSource(){
+  return planSource as string;
 }
