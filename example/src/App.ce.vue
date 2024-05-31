@@ -4,24 +4,23 @@ import Plan from "../../src/components/Plan.vue"
 import {processData,setPlanSource} from "./utils.ts"
 
 const props = defineProps({
-  data: {
+  plan: {
     type: String,
     default: ''
+  },
+  query:{
+    type:String,
+    default:''
   }
 })
-const planRef = ref('');
-
-watch(() => props.data, (newValue) => {
-  console.log(newValue)
-})
-setPlanSource(props.data);
-planRef.value = `${JSON.stringify(processData(JSON.parse(props.data)))}`
+setPlanSource(props.plan);
+props.plan = `${JSON.stringify(processData(JSON.parse(props.plan)))}`
 </script>
 <style src="./style.css"></style>
 <template>
     <plan
-      v-if="{planRef}"
-      :plan-source="{planRef}"
-      :plan-query="query"
+      v-if="props.plan"
+      :plan-source="props.plan"
+      :plan-query="props.query"
     />
 </template>

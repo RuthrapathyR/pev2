@@ -146,16 +146,15 @@ function handleClick(ele:any){
 }
 
 function addHoverEffect(ele:any){
-  ele.target.parentElement.classList.add("taskDetails");
+  ele.target.parentElement.style.setProperty('box-shadow', '#00000059 0 5px 15px');
+  ele.target.parentElement.style.setProperty('border-radius', '3px');
 }
 
 function removeHoverEffect(ele:any){
-  ele.target.parentElement.classList.remove("taskDetails");
+  ele.target.parentElement.style.removeProperty("box-shadow");
+  ele.target.parentElement.style.removeProperty("border-radius");
 }
 </script>
-<style scoped>
-  .plan-node:hover .taskDetails,.plan-node.highlight .taskDetails{box-shadow:#00000059 0 5px 15px;border-radius:3px} 
-</style>
 <template>
   <div class="card-header border-top" v-if="node[NodeProp.CUSTOM_PLAN_PROVIDER] == NodeProp.DISTDB_CUSTOMSCAN && node[NodeProp.NODE_TYPE] === NodeProp.CUSTOM_SCAN || node[NodeProp.NODE_TYPE].startsWith(NodeProp.SUB_PLAN)">
     <ul class="nav nav-tabs card-header-tabs">
